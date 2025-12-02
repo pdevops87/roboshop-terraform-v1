@@ -1,15 +1,34 @@
 // to create a resource
 resource "aws_instance" "instance" {
-  ami           = ""
-  instance_type = "t2.micro"
+  for_each      = var.components
+  ami           = var.ami
+  instance_type = var.instance_type
+  connection {
+    type     = "ssh"
+    user     = "ec2-user"
+    password = "DevOps321"
+    host     = self.public_ip
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+
+    ]
+  }
+  tags = {
+    Name = each.key
+ }
 }
 
 # create a dns record
 resource "aws_route53_record" "record" {
-  zone_id = ""
-  name    = ""
-  type    = "A"
-  ttl     = 5
-  records = [aws_instance.instance.public_ip]
+  for_each         =    var.components
+  zone_id          =    var.zone_id
+  name             =    each.key
+  type             =    "A"
+  ttl              =     5
+  records          =   [aws_instance.instance[each.key].private_ip]
 }
 
+
+# RHEL-9-DevOps-Practice
