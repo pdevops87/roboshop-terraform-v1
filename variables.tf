@@ -11,10 +11,10 @@ variable "zone_id"{
 #   default = ["frontend","catalogue","cart","users","mongodb"]
 # }
 variable "role" {
-  role = "test-role"
+  default = "test-role"
 }
 variable "policy"{
-  policy = "test-policy"
+  default = "test-policy"
 }
 variable "components" {
   default = {
