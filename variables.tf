@@ -15,8 +15,6 @@ variable "components" {
   default = {
     frontend    =   ""
     catalogue   =   ""
-    cart        =   ""
-    users       =   ""
-    mongodb     =   ""
+
   }
 }
