@@ -10,7 +10,6 @@ resource "aws_instance" "instance" {
     password = "DevOps321"
     host     = self.public_ip
   }
-
   provisioner "remote-exec" {
     inline = [
         "sudo dnf install python3.11-pip.noarch -y",
