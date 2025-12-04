@@ -10,11 +10,14 @@ variable "zone_id"{
 # variable "components"{
 #   default = ["frontend","catalogue","cart","users","mongodb"]
 # }
-
+variable "role" {
+  role = "test-role"
+}
+variable "policy"{
+  policy = "test-policy"
+}
 variable "components" {
   default = {
     frontend    =   ""
-    catalogue   =   ""
-
   }
 }

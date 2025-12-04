@@ -1,12 +1,12 @@
 // create an iam role and attach trust policy
 resource "aws_iam_role" "role" {
-  name = "test-role"
+  name = var.role
   description = "test-role"
   assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
 }
 # call permission policy dynamically
 resource "aws_iam_policy" "policy" {
-  name        = "test-policy"
+  name        = var.policy
   description = "A test policy"
   policy      = data.aws_iam_policy_document.policy.json
 }
