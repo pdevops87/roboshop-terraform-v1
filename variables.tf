@@ -16,6 +16,9 @@ variable "role" {
 variable "policy"{
   default = "test-policy"
 }
+variable "instance_profile"{
+  default = "instance_profile"
+}
 variable "components" {
   default = {
     frontend    =   ""
