@@ -16,6 +16,9 @@ resource "aws_instance" "instance" {
         "sudo pip3.11 install ansible "
     ]
   }
+  provisioner "remote-exec" {
+    inline = ["echo 'Hello'"]
+  }
   tags = {
     Name = each.key
  }
