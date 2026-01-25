@@ -1,0 +1,145 @@
+provider is a plugin to download that during  terraform initializes (terraform init) to interact with vendor like aws,azure,...
+in our project vendor is aws
+
+provider "aws" → tells Terraform which vendor (AWS)
+region = "us-east-1" → tells where (North Virginia)
+terraform init → downloads the AWS provider plugin
+
+provider "aws"{
+region="us-east-1"
+}
+
+
+RHEL = Kernel + OS utilities/libraries + drivers + optional software + configuration
+Hardware = separate, provided by the instance or machine
+
+
+terraform is a tool
+Hashicorp is a vendor and HCL is a language to create Infrastructure
+
+terraform architecture:
+=======================
+terraform init
+Initializes the working directory by downloading provider plugins, setting up the backend, and preparing modules.
+
+terraform plan
+Creates and displays an execution plan showing what Terraform will create, update, or delete—without making any changes.
+
+terraform apply
+Generates and displays an execution plan describing the resources to be created, updated, or destroyed, and then applies those changes after user confirmation.
+
+terraform destroy
+Creates an execution plan to destroy all managed resources and then deletes them after confirmation.
+
+Route53:
+========
+to create a DNS (Domain Name Space) in Hosted Zone,
+add ip address with name in Hosted Zone
+
+02/dec
+-----
+variables :
+------------
+string:
+ variable "env"{ default = "abc" }
+Number:
+variable "num"{default=100}
+Boolean
+variable "enabled"{type=bool default=true}
+list
+variable "availability_zone"{type=list default=["var1","var2","var3"]
+how to get list value based on index/single value
+==================================================
+output "availability_zones"{
+value=var.availability_zones[0]
+}
+map
+variable "image_ids"{
+type=map
+default={
+a=100
+b=200
+}
+}
+output "image_ids"{
+value=var.image_ids["a"]
+}
+Any [any value like string,number,boolean,...]
+variable "x"{
+type=any
+}
+output "x"{
+value=var.x
+}
+output: output "env"{ value =var.env}
+interpolation: "${var.env}-01"
+
+
+** to stop prompt in between value ( terraform apply : Enter value(this is a prompt))
+variable "x"{
+type=string
+}
+default=null
+}
+
+
+
+Terraform has four looping mechanism:
+=======================================
+* count
+* for_each
+* for expression
+* dynamic blocks
+
+count:
+======
+if a resource is repeating again and again then we should use:
+resource "aws_instance" "instance"{
+count =3 // loop 3 times and created 3 resources
+}
+terraform creates the resource as a list: resource "aws_instance" "instance"[0 1 2]
+count.index
+if items are removed in between then index will change and resources destruct and recreate
+
+** we can able to remove a single resource:
+terraform state rm aws_instance.example
+
+for_each:
+=========
+* terraform creates the resource as a list: resource "aws_instance" "instance"[0 1 2].
+it is a key based loop , when we remove a key
+if items are removed in between then index then key will remove  and resources not to destruct and not to recreate.
+
+** cloud-init:
+==============
+cd /etc/cloud
+cat cloud.cfg
+* cloud-init runs when the instance[launch ec2 instance] boots (usually first boot).
+* It configures the instance, installs packages, and can set apps to auto-start.
+* It is designed for new instances (launch-time), not for manually starting apps on a running server.
+* To auto-start an app, cloud-init sets it up via systemd or scripts, but cloud-init itself doesn’t keep running afterward.
+
+
+provisioner:
+============
+* add provisioner inside a resource block
+* run terraform apply
+* if the provisioner not run properly and fails, then terraform will fail
+* if there are any changes in provisioner and re-run the terraform, terraform taint(replace) the resource because before the resource not created properly
+* provisioner will create only once
+* here two are there:
+1. creating a resource
+2. executing a provisioner, so here depending on resource
+3. imp: if there are any changes in provisioner , no need to recreate a resource
+
+* inline=[
+"sudo dnf install python3.13-pip -y",
+"sudo pip3.11 install ansible",
+"ansible-pull -i localhost, -U <git-repo ansible> main.yaml -e component=${each.key}"
+
+
+count
+for_each
+null_resource
+
+

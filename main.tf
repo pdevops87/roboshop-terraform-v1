@@ -8,12 +8,13 @@ resource "aws_instance" "instance" {
     type     = "ssh"
     user     = "ec2-user"
     password = "DevOps321"
-    host     = self.public_ip
+    host     = self.private_ip
   }
   provisioner "remote-exec" {
     inline = [
         "sudo dnf install python3.11-pip -y",
-        "sudo pip3.11 install ansible  "
+        "sudo pip3.11 install ansible",
+        "ansible-pull -i localhost, -U https://github.com/pdevops87/roboshop-ansible-v4 roboshop.yaml -e component=${each.key}"
     ]
   }
   provisioner "remote-exec" {
