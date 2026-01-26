@@ -10,6 +10,10 @@ resource "aws_instance" "instance" {
 }
 
 resource "null_resource" "provisioner" {
+  triggers = {
+    timestamp = timestamp()
+
+  }
   for_each      = var.components
   connection {
     type     = "ssh"
