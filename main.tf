@@ -4,28 +4,31 @@ resource "aws_instance" "instance" {
   ami           = var.ami
   instance_type = var.instance_type
   iam_instance_profile = aws_iam_instance_profile.instance_profile.name
+  tags = {
+    Name = each.key
+  }
+}
+
+resource "null_resource" "provisioner" {
+  for_each      = var.components
   connection {
     type     = "ssh"
     user     = "ec2-user"
     password = "DevOps321"
-    host     = self.private_ip
+    host     = aws_instance.instance.private_ip
   }
   provisioner "remote-exec" {
     inline = [
-        "sudo dnf install python3.11-pip -y",
-        "sudo pip3.11 install ansible",
-        "sudo dnf list | grep pip",
-        "ansible-pull -i localhost, -U https://github.com/pdevops87/roboshop-ansible-v4 roboshop.yaml -e component=${each.key} -e env=dev"
+      "sudo dnf install python3.11-pip -y",
+      "sudo pip3.11 install ansible",
+      "ansible-pull -i localhost, -U https://github.com/pdevops87/roboshop-ansible-v4 roboshop.yaml -e component=${each.key}"
     ]
   }
   provisioner "remote-exec" {
     inline = ["echo 'Hello terraform'"]
   }
-  tags = {
-    Name = each.key
- }
-}
 
+}
 # create a dns record
 resource "aws_route53_record" "record" {
   for_each         =    var.components
