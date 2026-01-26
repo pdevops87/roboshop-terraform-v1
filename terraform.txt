@@ -138,8 +138,10 @@ provisioner:
 "ansible-pull -i localhost, -U <git-repo ansible> main.yaml -e component=${each.key}"
 
 
-count
-for_each
-null_resource
+important points:
+====================
+1. provisioner is created inside a resource block
+2. first error:  [ERROR]: Task failed: 'env' is undefined
+
 
 

@@ -14,7 +14,7 @@ resource "aws_instance" "instance" {
     inline = [
         "sudo dnf install python3.11-pip -y",
         "sudo pip3.11 install ansible",
-        "ansible-pull -i localhost, -U https://github.com/pdevops87/roboshop-ansible-v4 roboshop.yaml -e component=${each.key}"
+        "ansible-pull -i localhost, -U https://github.com/pdevops87/roboshop-ansible-v4 roboshop.yaml -e component=${each.key} -e env=dev"
     ]
   }
   provisioner "remote-exec" {
