@@ -8,6 +8,15 @@ resource "aws_instance" "instance" {
     Name = each.key
   }
 }
+# create a dns record
+resource "aws_route53_record" "record" {
+  for_each         =    var.components
+  zone_id          =    var.zone_id
+  name             =    "${each.key}-${var.env}"
+  type             =    "A"
+  ttl              =     5
+  records          =   [aws_instance.instance[each.key].private_ip]
+}
 
 resource "null_resource" "provisioner" {
   triggers = {
@@ -32,15 +41,6 @@ resource "null_resource" "provisioner" {
     inline = ["echo 'Hello terraform'"]
   }
 
-}
-# create a dns record
-resource "aws_route53_record" "record" {
-  for_each         =    var.components
-  zone_id          =    var.zone_id
-  name             =    each.key
-  type             =    "A"
-  ttl              =     5
-  records          =   [aws_instance.instance[each.key].private_ip]
 }
 
 

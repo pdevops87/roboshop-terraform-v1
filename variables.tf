@@ -19,8 +19,13 @@ variable "policy"{
 variable "instance_profile"{
   default = "instance_profile-1"
 }
+variable "env" {
+  default = "dev"
+}
 variable "components" {
   default = {
     frontend    =   ""
+    mongodb     =   ""
+    catalogue   =   ""
   }
 }

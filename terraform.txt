@@ -167,7 +167,51 @@ Common reasons:
    Sees the resource is tainted
    Terraform does NOT re-run the old provisioner
    Terraform plans to destroy and recreate the resource
-5.
+5. once provisioner script fails then next resource won't execute , so to avoid this we have to decouple
+ # null_resource.provisioner["frontend"] must be replaced
+-/+ resource "null_resource" "provisioner" {
+      ~ id       = "51847113810098300" -> (known after apply)
+      + triggers = { # forces replacement[(Terraform destroys the old null_resource and creates a new one)]
+          + "timestamp" = (known after apply)
+        }
+    }
+
+Plan: 2 to add, 0 to change, 1 to destroy.
+null_resource.provisioner["frontend"]: Destroying... [id=51847113810098300]
+null_resource.provisioner["frontend"]: Destruction complete after 0s
+null_resource.provisioner["frontend"]: Creating...
+null_resource.provisioner["frontend"]: Provisioning with 'remote-exec'...
+
+
+two points here we have to decouple:
+====================================
+1. when a script fails in provisioner, second time to run a terraform , terraform checks the state file and display which resource is tainted (means earlier provisioner script fails)
+2. when a script fails next resource won't run
+to avoid this use null_resource , add provisioner inside null resource block
+again here also we will get tainted issue, to avoid this issue "use triggers block"
+triggers block:
+===============
+if there are any changes in provisioner block, then null resource block only remove not an instance(resource) destroy and recreate only null resource block
+
+04/12
+depends_on:
+===========
+this block which is dependent on other resources, once complete those resources then other should execute.
+alternatives is a command :
+alternatives list
+
+dataSource: A data source is used to get (read) existing data.
+============
+ami
+security group
+
+module:
+=======
+module sources terraform
+
+monorepos and multirepos
+
+
 
 
 
