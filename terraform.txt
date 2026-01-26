@@ -142,6 +142,32 @@ important points:
 ====================
 1. provisioner is created inside a resource block
 2. first error:  [ERROR]: Task failed: 'env' is undefined
+3. # aws_instance.instance["frontend"] is tainted, so must be replaced
+Plan: 2 to add, 0 to change, 1 to destroy.
+aws_instance.instance["frontend"]: Destroying... [id=i-0428e319b1382bd9a]
+aws_instance.instance["frontend"]: Still destroying... [id=i-0428e319b1382bd9a, 00m10s elapsed]
+aws_instance.instance["frontend"]: Still destroying... [id=i-0428e319b1382bd9a, 00m20s elapsed]
+aws_instance.instance["frontend"]: Still destroying... [id=i-0428e319b1382bd9a, 00m30s elapsed]
+aws_instance.instance["frontend"]: Destruction complete after 40s
+aws_instance.instance["frontend"]: Creating...
+****
+
+Why a resource becomes tainted?
+Common reasons:
+================
+* A previous terraform apply failed midway
+* Manual taint (terraform taint)
+* Provisioner/script failed
+* Instance was modified outside Terraform
+* Terraform detected inconsistent state
+
+4. During the second terraform apply
+
+   Terraform reads the state file
+   Sees the resource is tainted
+   Terraform does NOT re-run the old provisioner
+   Terraform plans to destroy and recreate the resource
+5.
 
 
 

@@ -18,7 +18,7 @@ resource "aws_instance" "instance" {
     ]
   }
   provisioner "remote-exec" {
-    inline = ["echo 'Hello'"]
+    inline = ["echo 'Hello terraform'"]
   }
   tags = {
     Name = each.key
