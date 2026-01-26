@@ -14,10 +14,10 @@ variable "role" {
   default = "test-role-1"
 }
 variable "policy"{
-  default = "test-policy"
+  default = "test-policy-1"
 }
 variable "instance_profile"{
-  default = "instance_profile"
+  default = "instance_profile-1"
 }
 variable "components" {
   default = {
