@@ -14,6 +14,7 @@ resource "aws_instance" "instance" {
     inline = [
         "sudo dnf install python3.11-pip -y",
         "sudo pip3.11 install ansible",
+        "sudo dnf list | grep pip",
         "ansible-pull -i localhost, -U https://github.com/pdevops87/roboshop-ansible-v4 roboshop.yaml -e component=${each.key} -e env=dev"
     ]
   }
