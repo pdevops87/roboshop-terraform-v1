@@ -28,6 +28,7 @@ resource "null_resource" "provisioner" {
     timestamp = timestamp()
     instance_id = aws_instance.instance[each.key].id
   }
+
   provisioner "remote-exec" {
     connection {
       type     = "ssh"
