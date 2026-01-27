@@ -25,7 +25,7 @@ resource "null_resource" "provisioner" {
   ]
   triggers = {
     timestamp = timestamp()
-
+    instance_id = aws_instance.instance.id
   }
   for_each      = var.components
 
