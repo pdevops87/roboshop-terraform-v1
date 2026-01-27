@@ -212,7 +212,10 @@ module sources terraform
 monorepos and multirepos
 
 how to remove instance profile through cli?
-aws iam remove-role-from-instance-profile   --instance-profile-name instance_profile   --role-name test-role
+ aws iam remove-role-from-instance-profile   --instance-profile-name instance_profile   --role-name test-role
+ to delete instance profile: aws iam delete-instance-profile --instance-profile-name instance_profile
+ to get instance profile: aws iam get-instance-profile   --instance-profile-name instance_profile
+
 
 
 
