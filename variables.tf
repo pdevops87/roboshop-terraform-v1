@@ -30,5 +30,9 @@ variable "components" {
     redis       =   ""
     cart        =   ""
     user        =   ""
+    mysql       =   ""
+    shipping    =   ""
+    payment     =   ""
+    rabbitmq    =   ""
   }
 }
