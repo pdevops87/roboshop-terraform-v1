@@ -19,6 +19,10 @@ resource "aws_route53_record" "record" {
 }
 
 resource "null_resource" "provisioner" {
+  depends_on = [
+  aws_instance.instance,
+  aws_route53_record.record
+  ]
   triggers = {
     timestamp = timestamp()
 
