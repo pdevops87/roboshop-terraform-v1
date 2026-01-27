@@ -217,5 +217,14 @@ how to remove instance profile through cli?
  to get instance profile: aws iam get-instance-profile   --instance-profile-name instance_profile
 
 
+practical:
+==========
+* create 3 modules
+1.Network module comprising a security group
+2.EC2 module comprising ec2 and ansible
+3.Route53 module comprising DNS record
+
+
+
 
 
