@@ -27,5 +27,8 @@ variable "components" {
     frontend    =   ""
     mongodb     =   ""
     catalogue   =   ""
+    redis       =   ""
+    cart        =   ""
+    user        =   ""
   }
 }

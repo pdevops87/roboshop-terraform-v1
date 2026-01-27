@@ -42,9 +42,9 @@ resource "null_resource" "provisioner" {
       "ansible-pull -i localhost, -U https://github.com/pdevops87/roboshop-ansible-v4 roboshop.yaml -e component=${each.key} -e env=dev"
     ]
   }
-  provisioner "remote-exec" {
-    inline = ["echo 'Hello terraform'"]
-  }
+#   provisioner "remote-exec" {
+#     inline = ["echo 'Hello terraform'"]
+#   }
 
 }
 
