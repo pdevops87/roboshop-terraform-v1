@@ -19,16 +19,15 @@ resource "aws_route53_record" "record" {
 }
 
 resource "null_resource" "provisioner" {
+  for_each      = var.components
   depends_on = [
   aws_instance.instance,
   aws_route53_record.record
   ]
   triggers = {
     timestamp = timestamp()
-    instance_id = aws_instance.instance.id
+    instance_id = aws_instance.instance[each.key].id
   }
-  for_each      = var.components
-
   provisioner "remote-exec" {
     connection {
       type     = "ssh"
