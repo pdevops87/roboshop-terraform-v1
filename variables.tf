@@ -25,7 +25,6 @@ variable "env" {
 variable "components" {
   default = {
     frontend    =   ""
-    mongodb     =   ""
-    catalogue   =   ""
+
   }
 }
