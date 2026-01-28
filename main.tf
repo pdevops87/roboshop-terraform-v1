@@ -1,9 +1,10 @@
 // to create a resource
 resource "aws_instance" "instance" {
   for_each      = var.components
-  ami           = var.ami
+  ami           = data.aws_ami.ami.image_id
   instance_type = var.instance_type
   iam_instance_profile = aws_iam_instance_profile.instance_profile.name
+  vpc_security_group_ids = [data.aws_security_group.sg]
   tags = {
     Name = each.key
   }
@@ -39,13 +40,9 @@ resource "null_resource" "provisioner" {
     inline = [
       "sudo dnf install python3.11-pip -y",
       "sudo pip3.11 install ansible",
-      "ansible-pull -i localhost, -U https://github.com/pdevops87/roboshop-ansible-v4 roboshop.yaml -e component=${each.key} -e env=dev"
+      "ansible-pull -i localhost, -U https://github.com/pdevops87/roboshop-ansible-v4 roboshop.yaml -e component=${each.key} -e env=${var.env}"
     ]
   }
-#   provisioner "remote-exec" {
-#     inline = ["echo 'Hello terraform'"]
-#   }
-
 }
 
 
